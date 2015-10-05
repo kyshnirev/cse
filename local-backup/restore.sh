@@ -12,17 +12,21 @@
 # sept 2014, GK
 #
 
+set -e
+set -u
+
 [ "$1" == "" ] && { echo "ERROR: missing param <file_name>"; exit 1; }
 [ -f "$1" ] || { echo "ERROR: file does not exists: '$1'"; exit 1; }
+
+# load config
+. "$( dirname $0 )/config"
 
 FPATH="$(readlink -e $1)"
 FNAME="${FPATH##*/}"
 FDIR="${FPATH%/*}"
 
 
-BAKDIR=~/bak
-
-PTF="${BAKDIR}${FDIR}"
+PTF="${BAK_DIR}${FDIR}"
 #
 # example: /home/user/bak/home/user/.cse/local-backup/bak.sh:2014-09-18_12-31
 echo "INFO: search for '$FNAME' in '$PTF'"
@@ -32,6 +36,9 @@ INDEXES="$I"
 echo "[$I] cancel"
 while read ITEM # do not using sub-shell ( pass data to loop at end '<<< find ...' )
 do
+  if [ -z "$ITEM" ]; then
+    continue
+  fi
   I=$(( $I + 1 ))
   INDEXES="$INDEXES $I"
   echo "[$I] $ITEM"
@@ -67,8 +74,8 @@ fi
 
 cp_print() {
   if [ -f "$2" ]; then
-    echo "save $2 to $BAKDIR/last-replaced"
-    cp "$DEST_WT" "$BAKDIR/last-replaced" # bacup last replaced file
+    echo "save $2 to $BAK_DIR/last-replaced"
+    cp "$DEST_WT" "$BAK_DIR/last-replaced" # bacup last replaced file
   fi
   echo "COPY $1 TO $2"
   cp "$1" "$2"
@@ -84,11 +91,11 @@ do
     exit 0
     ;;
   copy)
-    DEST="${SELFILE#$BAKDIR}" # remove bak dir prefix from full path
+    DEST="${SELFILE#$BAK_DIR}" # remove bak dir prefix from full path
     cp_print "$SELFILE" "$DEST"
     ;;
   replace)
-    DEST="${SELFILE#$BAKDIR}" # remove bak dir prefix from full path
+    DEST="${SELFILE#$BAK_DIR}" # remove bak dir prefix from full path
     DEST_WT=${DEST%:*} # remove all after ':'
     cp_print "$SELFILE" "$DEST_WT"
     ;;

@@ -1,0 +1,13 @@
+
+#
+# sample config file with default values
+# copy it to ./config and customize if necessary
+#
+# it used into ./backup.sh ./restore.sh
+#
+
+#
+# backup storage directory
+#
+BAK_DIR=~/bak
+
