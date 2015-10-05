@@ -26,7 +26,20 @@ gradle_init_java() {
     local PDIR="./$1"
   fi
 
-  mkdir -p "${PDIR}/src/{main,test}/{java,resources}"
+  mkdir -p ${PDIR}/src/{main,test}/{java,resources}
+
+  local BUILD_GRADLE_FILE=$PDIR/build.gradle
+
+  if [ -f $BUILD_GRADLE_FILE ]; then
+    echo "build gradle file already exists: $BUILD_GRADLE_FILE"
+    echo "overwrite? [yes/no]"
+    read ANS
+    if [ "$ANS" = "yes" ]; then
+      p ERROR "do not override already exists build gradle file: $BUILD_GRADLE_FILE"
+      exit 1
+    fi
+    p INFO "overwrite already exists build gradle file: $BUILD_GRADLE_FILE"
+  fi
 
   echo '# gradle build script
 
@@ -55,7 +68,7 @@ dependencies {
 
 }
 
-  ' > $PDIR/build.gralde
+  ' > $BUILD_GRADLE_FILE
 
 }
 
