@@ -1,0 +1,22 @@
+// gradle build script
+
+apply plugin: "java"
+
+ext {
+  ${LOGGER_VERSION:-}
+  ${GUAVA_VERSION:-}
+}
+
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // test
+  testCompile 'junit:junit:4.4'
+
+  ${LOGGER_DEPENDENCIES:-}
+  ${GUAVA_DEPENDENCIES:-}
+}
+
