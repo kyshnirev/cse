@@ -24,9 +24,15 @@ function trim() {
     return
   fi
 
+  local BAK="$2"
+
   echo "start trim trailing spaces in file '$FNAME'"
 
-  sed -i.bak 's/[[:space:]]*$//g' "$FNAME"
+  if [ "$BAK" = "-b" ] || [ "$BAK" = "--bak" ]; then
+    sed -i.bak 's/[[:space:]]*$//g' "$FNAME"
+  else
+    sed -i 's/[[:space:]]*$//g' "$FNAME"
+  fi
 
   echo "done."
 }
