@@ -1,0 +1,19 @@
+************************************************
+*  .cse                                        *
+*  Common Scripts Extension                    *
+*                                              *
+*  linux bash shell extentions for usability   *
+*                                              *
+*  oct 2014, GK                                *
+*                                              *
+************************************************
+
+This is bash shell extentions scripts.
+
+To use it include in your ~/.bashrc
+
+  . ~/.cse/include.sh
+
+Each module - folder with modules.sh
+Each module.sh will be loaded by include.sh on bash init.
+
