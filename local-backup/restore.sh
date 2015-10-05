@@ -44,18 +44,22 @@ do
   echo "[$I] $ITEM"
 done <<< "$( find "$PTF" -name "$FNAME*" | sed -nr 's|.*/([^/]+):([^_]+)_(.*)$|\1   /   \2 \3|p' )"
 
-read -p 'Select file version: ' ANS
+AND=''
+while [ -z "${ANS:-}" ];
+do
+  read -p 'Select file version: ' ANS
 
-# check input
-case "$INDEXES" in
-  *$ANS*)
-    echo "your input: $ANS"
-    ;;
-  *)
-    echo "ERROR: wrong input: '$ANS', available: '$INDEXES'"
-    exit 3
-    ;;
-esac
+  # check input
+  case "$INDEXES" in
+    *$ANS*)
+      echo "your input: $ANS"
+      ;;
+    *)
+      echo "ERROR: wrong input: '$ANS', available: '$INDEXES'"
+      ANS=''
+      ;;
+  esac
+done
 
 # cancel
 if [ "$ANS" = "1" ]; then
