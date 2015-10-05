@@ -8,7 +8,7 @@
 # jan 2014, GK 
 #
 
-DIR=`pwd`
+[ "$1" = "" ] && DIR=`pwd` || DIR="$1"
 
 if [ ! -d "$DIR/.git" ]
 then
