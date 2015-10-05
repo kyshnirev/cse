@@ -46,4 +46,5 @@ function cd_up() {
 }
 
 alias 'cd..'='cd_up'  # one param expected
+alias '..'='cd_up'
 
