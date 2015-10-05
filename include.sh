@@ -29,12 +29,12 @@ LOG_FILE=$BASEDIR/startup.log
 echo "CSE startup at `date`" > $LOG_FILE
 #
 function p() {
-  if [ -z "$2" ]; then
-    local MSG="$( caller ) $1" # $( caller ) - invoker script name and line
-  else
-    local MSG="[$1] $( caller ) - $2" # [log_level] caller - message
+  [ "$2" = "" ] && local LEVEL="DEF" || local LEVEL="$1"
+  local MSG="[$LEVEL] $( caller ) - ${2:-$1}"
+
+  if [ "$LEVEL" == ERROR ] || [ "$DEV_MODE" = true ]; then
+    echo $MSG
   fi
-  [ $DEV_MODE != false ] && echo $MSG
   echo $MSG >> $LOG_FILE
 }
 # ******************************************
