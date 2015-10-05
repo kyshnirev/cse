@@ -15,12 +15,11 @@ BASEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 #
-# if $(dirname $0) == "/bin" - it is bash initialization, else - manual run
+# if true - print log into sdout, and may be some more
 # ******************************************
-[ "$( dirname $0 )" == "/bin" ] && DEV_MODE=false || DEV_MODE=true
+DEV_MODE=false
 # ******************************************
 #
-
 
 #
 # print alias, LOG
@@ -33,19 +32,18 @@ function p() {
   if [ -z "$2" ]; then
     local MSG="$( caller ) $1" # $( caller ) - invoker script name and line
   else
-    local MSG="[$1] $( caller ) - $2"
+    local MSG="[$1] $( caller ) - $2" # [log_level] caller - message
   fi
-  [ "$DEV_MODE" == "true" ] && echo $MSG
+  [ $DEV_MODE != false ] && echo $MSG
   echo $MSG >> $LOG_FILE
 }
 # ******************************************
 #
 
-
 #
 # search and load modules
 # ******************************************
-for MOD in $( ls ); do
+for MOD in $( ls "$BASEDIR" ); do
   MOD_DIR="$BASEDIR/$MOD"
 
   # module must be in own dir, and contains module.sh
