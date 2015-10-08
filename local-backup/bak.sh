@@ -33,7 +33,7 @@ usage example:
 #   bak info, bak size   - show backup storage size
 #
 
-[ -z "$1" ] && { echo "ERROR: missing argument $HELP"; exit 1; }
+[ "$#" -eq 0 ] && { echo "ERROR: missing argument $HELP"; exit 1; }
 
 # parse arguments
 CMD=''
